@@ -1,0 +1,28 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-053b0d53c279acc90",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "mpr-ami {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    
+       {
+      "type": "shell",
+      "inline": [
+      "sudo apt-get -y update",
+      "sudo apt install software-properties-common -y",
+      "sudo apt-add-repository --yes --update ppa:ansible/ansible",
+      "sudo apt-get -y install ansible"
+  ]},
+    {
+      "type": "ansible-local",
+      "playbook_file": "tomcat9-install.yaml"
+    }
+    ]
+  
+}
